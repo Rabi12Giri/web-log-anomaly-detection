@@ -1,0 +1,122 @@
+Detailed Explanation of what each file does
+
+prepare.py
+-> reads raw access log file
+-> data/raw/access.log
+-> parses valid Apache log entries
+-> extracts IP, timestamp, method, URL, status, user-agent
+-> removes invalid or malformed log lines
+-> creates structured CSV file
+-> data/processed/parsed_logs.csv
+
+feature_engineering.py
+-> reads parsed log file
+-> data/processed/parsed_logs.csv
+-> groups records by IP address
+-> calculates total requests per IP
+-> calculates unique URLs per IP
+-> calculates average URL length
+-> calculates HTTP error rate
+-> creates feature dataset
+-> data/processed/features.csv
+
+train.py
+-> reads feature dataset
+-> data/processed/features.csv
+-> applies feature scaling
+-> trains Isolation Forest model
+-> learns normal traffic behaviour
+-> saves trained model and scaler
+-> models/isolation_forest.pkl
+
+predict.py
+-> reads feature dataset
+-> data/processed/features.csv
+-> loads trained model
+-> models/isolation_forest.pkl
+-> generates anomaly score per IP
+-> labels traffic as NORMAL or ANOMALY
+-> saves prediction results
+-> logs/predictions.json
+
+baseline_filter.py
+-> reads full feature dataset
+-> data/processed/features.csv
+-> removes extreme high-traffic outliers
+-> approximates normal behaviour
+-> creates baseline dataset
+-> data/processed/features_baseline.csv
+
+simulate_attack.py
+-> reads baseline or original feature dataset
+-> data/processed/features_baseline.csv OR data/processed/features.csv
+-> modifies request counts and error rates
+-> simulates attack-like traffic
+-> creates attack dataset
+-> data/processed/features_with_attack.csv
+
+plot_attack_comparison.py
+-> loads trained model
+-> models/isolation_forest.pkl
+-> reads normal feature dataset
+-> data/processed/features.csv
+-> reads attack dataset
+-> data/processed/features_with_attack.csv
+-> generates comparison plots
+-> saves charts to
+-> temp/charts/
+
+main.py
+-> loads environment variables (.env)
+-> initializes FastAPI server
+-> enables CORS for frontend
+-> mounts static chart directory
+-> registers API routes
+-> connects detection, upload, charts, email modules
+
+detector.py
+-> reads feature dataset
+-> data/processed/features.csv
+-> loads trained model
+-> models/isolation_forest.pkl
+-> performs anomaly detection
+-> saves prediction results
+-> logs/predictions.json
+
+upload_detect.py
+-> accepts CSV file from frontend
+-> validates file structure
+-> applies trained model
+-> detects anomalous rows
+-> returns results as API response
+
+email_alert.py
+-> reads email credentials from .env
+-> connects to Gmail SMTP
+-> sends alert when anomalies are detected
+
+charts.py
+-> reads prediction results
+-> logs/predictions.json
+-> generates anomaly score distribution
+-> generates normal vs anomaly count chart
+-> generates top anomalous IP chart
+-> saves images to
+-> temp/charts/
+-> exposes chart endpoints via GET API
+
+Charts.jsx
+-> loads chart images from backend
+-> displays anomaly visualisations
+-> uses static image URLs
+
+App.jsx
+-> handles CSV file upload
+-> sends file to backend API
+-> displays detection results
+-> conditionally renders charts
+
+The system follows a clear pipeline from raw web server logs to
+unsupervised anomaly detection, visualisation, and alerting.
+Each stage produces structured outputs that are reused by
+subsequent components.

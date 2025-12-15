@@ -1,0 +1,131 @@
+
+Folder Structure - Version 1
+web-log-anomaly-detection/
+│
+├── data/
+│   ├── raw/
+│   │   └── access.log        # Original raw log (never modified)
+│   │
+│   ├── processed/
+│   │   └── parsed_logs.csv   # Clean structured data
+│
+├── src/
+│   ├── prepare.py            # Parse raw log → structured CSV
+│   ├── feature_engineering.py# Create ML features
+│   ├── train.py              # Train Isolation Forest
+│   ├── predict.py            # Run detection + tests
+│   └── logger.py             # Save results safely
+│
+├── models/
+│   └── isolation_forest.pkl  # Trained model
+│
+├── logs/
+│   └── predictions.json      # System outputs
+│
+├── requirements.txt
+└── README.md
+
+Folder Strucutre - Version 2
+web-log-anomaly-detection/
+│
+├── api/
+│ ├── main.py
+│ ├── detector.py
+│ ├── upload_detect.py
+│ ├── charts.py
+│ └── email_alert.py
+│
+├── src/
+│ ├── prepare.py
+│ ├── feature_engineering.py
+│ ├── train.py
+│ ├── predict.py
+│ ├── baseline_filter.py # optional
+│ └── simulate_attack.py
+│
+├── data/
+│ ├── raw/
+│ │ └── access.log
+│ └── processed/
+│ ├── parsed_logs.csv
+│ ├── features.csv
+│ └── features_with_attack.csv
+│
+├── models/
+│ └── isolation_forest.pkl
+│
+├── logs/
+│ └── predictions.json
+│
+├── temp/
+│ └── charts/
+│
+├── frontend/
+│ └── (React + Tailwind app)
+│
+├── .env
+├── requirements.txt
+└── README.md
+
+
+
+# Features.csv only with default anomaly
+Top suspicious IPs:
+                     ip  total_requests  unique_urls  avg_url_length  error_rate  anomaly_score  anomaly
+858       104.222.32.91     6008.285714  5824.714286      746.315577    0.095701      -0.158668  ANOMALY
+38447   195.181.168.181     3497.375000  3316.500000      827.481726    0.073528      -0.156458  ANOMALY
+113197    5.117.116.238     1342.200000   771.600000      365.125594    0.077901      -0.156458  ANOMALY
+251045      91.99.47.57     6434.833333  3180.333333      309.877301    0.021889      -0.140067  ANOMALY
+250969      91.99.30.32     6567.571429  3328.428571      316.504549    0.019622      -0.140067  ANOMALY
+
+# Features_with_attack.csv with manual anomaly
+Top suspicious IPs:
+                     ip  total_requests    unique_urls  avg_url_length  error_rate  anomaly_score  anomaly
+258445  999.999.999.999   841626.190476  502228.571429     2182.901212    0.990000      -0.181676  ANOMALY
+858       104.222.32.91     6008.285714    5824.714286      746.315577    0.095701      -0.158668  ANOMALY
+38447   195.181.168.181     3497.375000    3316.500000      827.481726    0.073528      -0.156458  ANOMALY
+113197    5.117.116.238     1342.200000     771.600000      365.125594    0.077901      -0.156458  ANOMALY
+250969      91.99.30.32     6567.571429    3328.428571      316.504549    0.019622      -0.140067  ANOMALY
+
+
+
+
+-------------------------------------------
+1. prepare.py -> access prepare log and -> parsed_logs.csv
+
+2. feature_engineering.py -> parsed_logs.csv -> features.csv
+
+3. train.py -> features.csv -> isolation_forest.pkl (model)
+
+4. predict.py -> features.csv -> model(isolation_forest.pkl) -> logs/predictions.json
+
+--------------------------------------------
+OPTIONAL:
+5. baseline_filter.py -> features.csv -> features_baseline.csv (decreasing the total request)
+--------------------------------------------
+
+6. simulate_attack -> features_baseline.csv OR features.csv -> processed/features_with_attack.csv
+
+--------------------------------------------
+CHARTS:
+7. plot_attack_comparison.py -> isolation_forest.pkl -> features.csv (processed data) -> features_with_attack.csv (attackk data) -> plt. 
+--------------------------------------------
+
+----------------------------------------------------------------------------------------
+APIs
+8. main.py -> .env setup -> install FastAPIs -> has all API functions integrated here
+
+9. detector.py -> loading csv and run anomaly detection
+
+10. upload_detect.py -> upload file from frontend and this .py file will detect anomalies
+
+11. email_alert.py -> send gmail alert (report) via SMTP
+
+12. charts.py -> import prediction file from logs/predictions.json -> .get() api functions for charts
+
+----------------------------------------------------------------------------------------
+Frontend - usage of ReactJs and tailwind
+
+13. Charts.jsx components -> Chart API handle
+
+14. App.jsx -> Main file that handles results and file uploads
