@@ -43,3 +43,5 @@ print("Results saved to logs/predictions.json")
 # Show top anomalies
 print("\nTop suspicious IPs:")
 print(df.sort_values("anomaly_score").head(5))
+
+

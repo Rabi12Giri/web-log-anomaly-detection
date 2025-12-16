@@ -1,12 +1,14 @@
 import os
 import json
 import pandas as pd
+import matplotlib
+matplotlib.use("Agg")   
 import matplotlib.pyplot as plt
 from fastapi import APIRouter
 
 router = APIRouter()
 
-CHART_DIR = "temp/charts"
+CHART_DIR = "charts"
 os.makedirs(CHART_DIR, exist_ok=True)
 
 PREDICTIONS_FILE = "logs/predictions.json"
@@ -33,7 +35,6 @@ def load_predictions_safe():
 
     return df
 
-
 @router.get("/charts/anomaly-score-distribution")
 def anomaly_score_distribution():
     df = load_predictions_safe()
@@ -41,17 +42,26 @@ def anomaly_score_distribution():
     if df.empty or "anomaly_score" not in df.columns:
         return {"message": "No prediction data available"}
 
+    normal = df[df["anomaly"] == "NORMAL"]["anomaly_score"]
+    anomaly = df[df["anomaly"] == "ANOMALY"]["anomaly_score"]
+
     plt.figure(figsize=(8, 5))
-    plt.hist(df["anomaly_score"], bins=40)
+
+    plt.hist(normal, bins=40, alpha=0.6, label="Normal")
+    plt.hist(anomaly, bins=40, alpha=0.9, label="Anomalous")
+
     plt.title("Anomaly Score Distribution")
     plt.xlabel("Anomaly Score")
     plt.ylabel("Frequency")
+    plt.legend()
 
     file_path = os.path.join(CHART_DIR, "anomaly_score_distribution.png")
-    plt.savefig(file_path)
-    plt.close()
+    plt.tight_layout()         
+    plt.savefig(file_path)   
+    plt.close()              
 
     return {"chart": file_path}
+
 
 
 @router.get("/charts/anomaly-count")

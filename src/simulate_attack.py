@@ -1,63 +1,58 @@
-# simulate_attack.py
-# Injects multiple artificial attack patterns
-
 import pandas as pd
+import numpy as np
 
-INPUT_FILE = "data/processed/features_baseline.csv"
-OUTPUT_FILE = "data/processed/features_with_attack.csv"
+IN_FILE = "./data/processed/features.csv"
+OUT_FILE = "./data/processed/manual_anomaly_attack.csv"
 
-print("Loading feature data...")
-df = pd.read_csv(INPUT_FILE)
+df = pd.read_csv(IN_FILE)
 
-print("Injecting multiple artificial attack patterns...")
+# Keep ONLY the expected schema
+cols = ["ip", "total_requests", "unique_urls", "avg_url_length", "error_rate"]
+df = df[cols].copy()
 
-max_requests = df["total_requests"].max()
-max_urls = df["unique_urls"].max()
-avg_url_len = df["avg_url_length"].mean()
+# Shuffle rows
+df = df.sample(frac=1, random_state=42).reset_index(drop=True)
 
-attack_rows = [
-    # Attack 1: Extreme brute-force / bot
-    {
-        "ip": "999.999.999.1",
-        "total_requests": max_requests * 50,
-        "unique_urls": max_urls * 50,
-        "avg_url_length": avg_url_len,
-        "error_rate": 0.95
-    },
+total = len(df)
+attack_n = int(total * 0.7)
 
-    # Attack 2: URL scanning attack
-    {
-        "ip": "999.999.999.2",
-        "total_requests": max_requests * 10,
-        "unique_urls": max_urls * 40,
-        "avg_url_length": avg_url_len * 2,
-        "error_rate": 0.60
-    },
+attack_idx = df.index < attack_n   # first 70% rows as "attack-like"
+normal_idx = ~attack_idx
 
-    # Attack 3: Low-and-slow suspicious behaviour
-    {
-        "ip": "999.999.999.3",
-        "total_requests": max_requests * 5,
-        "unique_urls": max_urls * 5,
-        "avg_url_length": avg_url_len,
-        "error_rate": 0.20
-    },
+# --- Toned-down "attack-like" amplification (won’t explode file size) ---
+# Requests + urls increase a bit, url length slightly, error rate increases but stays [0,1]
+df.loc[attack_idx, "total_requests"] = (
+    df.loc[attack_idx, "total_requests"] * np.random.uniform(1.3, 2.2)
+).round()
 
-    # Attack 4: Error-heavy probing
-    {
-        "ip": "999.999.999.4",
-        "total_requests": max_requests * 8,
-        "unique_urls": max_urls * 8,
-        "avg_url_length": avg_url_len,
-        "error_rate": 0.99
-    }
-]
+df.loc[attack_idx, "unique_urls"] = (
+    df.loc[attack_idx, "unique_urls"] * np.random.uniform(1.1, 1.8)
+).round()
 
-attack_df = pd.DataFrame(attack_rows)
+df.loc[attack_idx, "avg_url_length"] = (
+    df.loc[attack_idx, "avg_url_length"] * np.random.uniform(1.05, 1.25)
+)
 
-df = pd.concat([df, attack_df], ignore_index=True)
+df.loc[attack_idx, "error_rate"] = np.clip(
+    df.loc[attack_idx, "error_rate"] + np.random.uniform(0.08, 0.25),
+    0,
+    1,
+)
 
-df.to_csv(OUTPUT_FILE, index=False)
+# --- Make sure values are logically consistent ---
+# unique_urls should never exceed total_requests
+df["total_requests"] = df["total_requests"].astype(int)
+df["unique_urls"] = df["unique_urls"].astype(int)
+df["unique_urls"] = np.minimum(df["unique_urls"], df["total_requests"])
 
-print("Multiple attack simulation completed.")
-print("Saved features_with_attack.csv")
+# Reduce float precision to make CSV smaller
+df["avg_url_length"] = df["avg_url_length"].round(2)
+df["error_rate"] = df["error_rate"].round(3)
+
+# Save with the SAME 5 columns
+df.to_csv(OUT_FILE, index=False, columns=cols)
+
+print("✔ Saved:", OUT_FILE)
+print("Rows:", len(df))
+print("Attack-like rows (first 70%):", attack_n)
+print("Schema:", list(df.columns))

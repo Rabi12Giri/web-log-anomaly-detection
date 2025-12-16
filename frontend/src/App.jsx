@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import Charts from "./components/Charts";
+import { Navigate } from "react-router-dom";
+import SummaryCards from "./components/SummaryCards";
 
 function App() {
   const [file, setFile] = useState(null);
@@ -7,6 +9,11 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [refreshCharts, setRefreshCharts] = useState(0); // for charts
+
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
 
   const handleUpload = async () => {
     if (!file) {
@@ -16,8 +23,8 @@ function App() {
 
     setError("");
     setLoading(true);
-
     setResult(null);
+    localStorage.removeItem("anomalyResult"); // 🔥 IMPORTANT
 
     const formData = new FormData();
     formData.append("file", file);
@@ -31,8 +38,8 @@ function App() {
       const data = await response.json();
 
       setResult(data);
-      setRefreshCharts((prev) => prev + 1);
       localStorage.setItem("anomalyResult", JSON.stringify(data));
+      setRefreshCharts((prev) => prev + 1);
     } catch (err) {
       setError("Failed to connect to backend");
     } finally {
@@ -51,13 +58,24 @@ function App() {
     <div className="min-h-screen bg-slate-100">
       {/* Header */}
       <header className="bg-slate-900 text-white py-6 shadow">
-        <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-3xl font-bold">
-            AI-Based Web Log Anomaly Detection
-          </h1>
-          <p className="text-slate-300 mt-1">
-            Unsupervised Intrusion Detection System
-          </p>
+        <div className=" w-[80%] m-auto flex items-center justify-between">
+          <div className="">
+            <h1 className="text-3xl font-bold">
+              AI-Based Web Log Anomaly Detection
+            </h1>
+            <p className="text-slate-300 mt-1">
+              Unsupervised Intrusion Detection System
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              localStorage.removeItem("isAuthenticated");
+              window.location.href = "/login";
+            }}
+            className="text-sm bg-red-500 hover:bg-red-600 px-4 py-2 rounded cursor-pointer"
+          >
+            Logout
+          </button>
         </div>
       </header>
 
@@ -90,7 +108,7 @@ function App() {
                   localStorage.removeItem("anomalyResult");
                   setResult(null);
                 }}
-                className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded"
+                className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded cursor-pointer"
               >
                 Clear Results
               </button>
@@ -139,6 +157,7 @@ function App() {
                 </p>
               </div>
             </div>
+            {result?.summary && <SummaryCards summary={result.summary} />}
 
             {/* Results Table */}
             <div className="bg-white rounded-lg shadow p-6">
@@ -152,16 +171,28 @@ function App() {
                     <tr className="bg-slate-200 text-slate-700">
                       <th className="text-left p-3 border">S.N.</th>
                       <th className="text-left p-3 border">IP Address</th>
-                      <th className="text-left p-3 border">Anomaly Score</th>
+                      <th className="text-left p-3 border">Score</th>
+                      <th className="text-left p-3 border">Percentile</th>
+                      <th className="text-left p-3 border">Severity</th>
                     </tr>
                   </thead>
+
                   <tbody>
+                    {console.log(result)}
                     {result.top_anomalies.map((item, index) => (
                       <tr key={index} className="hover:bg-slate-50">
-                        <td className="p-3 border font-mono">{index + 1}</td>
-                        <td className="p-3 border font-mono">{item.ip}</td>
-                        <td className="p-3 border">
-                          {item.anomaly_score.toFixed(4)}
+                        <td className="p-3 border ">{index + 1}</td>
+                        <td className="p-3 border ">{item.ip}</td>
+
+                        {/* Raw anomaly score */}
+                        <td className="p-3 border  text-red-600">
+                          {item.anomaly_score?.toFixed(4)}
+                        </td>
+                        <td className="p-3 border ">
+                          {item.anomaly_percentile?.toFixed(2)}%
+                        </td>
+                        <td className="p-3 border  font-semibold">
+                          {item.severity}
                         </td>
                       </tr>
                     ))}
