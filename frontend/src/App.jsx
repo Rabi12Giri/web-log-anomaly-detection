@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Charts from "./components/Charts";
 
 function App() {
@@ -16,6 +16,7 @@ function App() {
 
     setError("");
     setLoading(true);
+
     setResult(null);
 
     const formData = new FormData();
@@ -31,12 +32,20 @@ function App() {
 
       setResult(data);
       setRefreshCharts((prev) => prev + 1);
+      localStorage.setItem("anomalyResult", JSON.stringify(data));
     } catch (err) {
       setError("Failed to connect to backend");
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const savedResult = localStorage.getItem("anomalyResult");
+    if (savedResult) {
+      setResult(JSON.parse(savedResult));
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-100">
@@ -69,13 +78,23 @@ function App() {
                          file:bg-slate-200 file:text-slate-700
                          hover:file:bg-slate-300"
             />
-
             <button
               onClick={handleUpload}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-medium"
+              className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white px-6 py-2 rounded font-medium"
             >
               Run Detection
             </button>
+            {result && (
+              <button
+                onClick={() => {
+                  localStorage.removeItem("anomalyResult");
+                  setResult(null);
+                }}
+                className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded"
+              >
+                Clear Results
+              </button>
+            )}
           </div>
 
           {loading && (

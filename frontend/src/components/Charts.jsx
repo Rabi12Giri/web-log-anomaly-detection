@@ -29,11 +29,13 @@ function Charts() {
           <div key={index} className="bg-white p-4 rounded-lg shadow">
             <h3 className="text-lg font-medium mb-3">{chart.title}</h3>
             {console.log(chart)}
-            <img
-              src={API_BASE + chart.img + `?t=${Date.now()}`}
-              alt={chart.title}
-              className="w-full border rounded"
-            />
+            <a href={API_BASE + chart.img + `?t=${Date.now()}`} target="_blank">
+              <img
+                src={API_BASE + chart.img + `?t=${Date.now()}`}
+                alt={chart.title}
+                className="w-full border rounded"
+              />
+            </a>
           </div>
         ))}
       </div>
