@@ -139,58 +139,61 @@ Activate first in root terminal
 Install Dependencies in root terminal
 --> pip install -r requirements.txt
 
-Add Dataset
-Place your web server log file here:
-data/raw/access.log
+**Add Dataset**
 
-🚀 Running the Pipeline
-Step 1: Parse Logs
-python src/prepare.py
+- Place your web server log file here:
+  data/raw/access.log
 
-Step 2: Feature Engineering
-python src/feature_engineering.py
+🚀 **Running the Pipeline**
 
-Step 3: Train Model
-python src/train.py
+- Step 1: Parse Logs
+  python src/prepare.py
 
-Step 4: Predict Anomalies
-python src/predict.py
+- Step 2: Feature Engineering
+  python src/feature_engineering.py
 
-🌐 Running the Backend (FastAPI)
-uvicorn api.main:app --reload
+- Step 3: Train Model
+  python src/train.py
 
-Open Swagger UI:
+- Step 4: Predict Anomalies
+  python src/predict.py
 
-http://127.0.0.1:8000/docs
+🌐 **Running the Backend (FastAPI)**
 
-Available endpoints:
+- uvicorn api.main:app --reload
 
-POST /detect
+**Open Swagger UI:**
 
-POST /detect-upload
+- http://127.0.0.1:8000/docs
 
-GET /charts/\*
+**Available endpoints:**
 
-💻 Running the Frontend (React)
+- POST /detect
+
+- POST /detect-upload
+
+- GET /charts/\*
+
+💻 **Running the Frontend (React)**
 cd frontend
 npm install
 npm run dev
 
 Frontend runs at:
 
-http://localhost:5173
+- http://localhost:5173
 
 📊 Visualisations
 
 The system generates:
 
-Anomaly score distribution
+- Anomaly score distribution
 
-Normal vs anomalous traffic count
+- Normal vs anomalous traffic count
 
-Top anomalous IP addresses
+- Top anomalous IP addresses
 
-Charts are saved in:
+- Charts are saved in:
 
 temp/charts/
 
@@ -214,39 +217,39 @@ Email alerts are triggered when anomalies are detected.
 
 🧪 Testing the System
 
-Upload a CSV containing web traffic features
+- Upload a CSV containing web traffic features
 
-System detects anomalies using the trained model
+- System detects anomalies using the trained model
 
-Results and charts are displayed in the UI
+- Results and charts are displayed in the UI
 
-Email alert is sent (if configured)
+- Email alert is sent (if configured)
 
 🎓 Academic Notes
 
-No labelled attack data is required
+- No labelled attack data is required
 
-Artificial anomalies are only used for testing
+- Artificial anomalies are only used for testing
 
-Evaluation is performed using anomaly score analysis and visualisation
+- Evaluation is performed using anomaly score analysis and visualisation
 
-Designed to meet MSc Level 7 coursework requirements
+- Designed to meet MSc Level 7 coursework requirements
 
 📌 Technologies Used
 
-Python
+- Python
 
-Pandas, NumPy
+- Pandas, NumPy
 
-Scikit-learn (Isolation Forest)
+- Scikit-learn (Isolation Forest)
 
-FastAPI
+- FastAPI
 
-React.js
+- React.js
 
-Tailwind CSS
+- Tailwind CSS
 
-Matplotlib
+- Matplotlib
 
 ✅ Conclusion
 
@@ -255,6 +258,6 @@ It provides a complete pipeline from raw logs to detection, visualisation, and a
 
 👤 Author
 
-Rabi Giri
-MSc IT (Cyber Security & AI)
-London Metropolitan University • Islington College
+**Rabi Giri**
+**MSc IT (Cyber Security & AI)**
+**London Metropolitan University • Islington College**
