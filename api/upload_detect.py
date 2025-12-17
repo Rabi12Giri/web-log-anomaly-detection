@@ -22,7 +22,7 @@ def severity_label(score: float) -> str:
     else:
         return "Low"
 
-def detect_from_uploaded_csv(file: UploadFile, top_n: int = 10):
+def detect_from_uploaded_csv(file: UploadFile, top_n: int = 40):
     if not file.filename.endswith(".csv"):
         raise HTTPException(status_code=400, detail="Only CSV files are allowed")
 

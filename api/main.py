@@ -42,7 +42,7 @@ def home():
 @app.post("/detect")
 def detect():
     # Normal mode: always use real features.csv
-    result = run_detection(input_file="data/processed/features.csv", top_n=10)
+    result = run_detection(input_file="data/processed/features.csv", top_n=40)
 
     # If anomalies exist, send Gmail alert
     if result["alert"]:

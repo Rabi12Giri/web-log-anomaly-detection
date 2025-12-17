@@ -183,7 +183,7 @@ pip install -r requirements.txt
 
 ```bash
 npm create vite@latest frontend
-```
+```w
 
 ```bash
 cd frontend

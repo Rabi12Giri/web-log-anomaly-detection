@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Charts from "./components/Charts";
 import { Navigate } from "react-router-dom";
 import SummaryCards from "./components/SummaryCards";
+
+const PAGE_SIZE = 10;
 
 function App() {
   const [file, setFile] = useState(null);
@@ -9,11 +11,32 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [refreshCharts, setRefreshCharts] = useState(0); // for charts
+  const progressIntervalRef = useRef(null);
+
+  // for loader % and progress
+  const [progress, setProgress] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const isAuthenticated = localStorage.getItem("isAuthenticated");
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
+
+  const startFakeProgress = () => {
+    setProgress(0);
+    progressIntervalRef.current = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 90) return prev; // stop at 90%
+        return prev + Math.random() * 5;
+      });
+    }, 600);
+  };
+
+  const stopFakeProgress = () => {
+    clearInterval(progressIntervalRef.current);
+    setProgress(100);
+    setTimeout(() => setProgress(0), 800);
+  };
 
   const handleUpload = async () => {
     if (!file) {
@@ -24,10 +47,12 @@ function App() {
     setError("");
     setLoading(true);
     setResult(null);
-    localStorage.removeItem("anomalyResult"); // 🔥 IMPORTANT
-
+    setCurrentPage(1);
+    localStorage.removeItem("anomalyResult");
     const formData = new FormData();
     formData.append("file", file);
+
+    startFakeProgress();
 
     try {
       const response = await fetch("http://127.0.0.1:8000/detect-upload", {
@@ -36,11 +61,13 @@ function App() {
       });
 
       const data = await response.json();
+      stopFakeProgress();
 
       setResult(data);
       localStorage.setItem("anomalyResult", JSON.stringify(data));
       setRefreshCharts((prev) => prev + 1);
     } catch (err) {
+      clearInterval(progressIntervalRef.current);
       setError("Failed to connect to backend");
     } finally {
       setLoading(false);
@@ -53,6 +80,18 @@ function App() {
       setResult(JSON.parse(savedResult));
     }
   }, []);
+
+  // Pagination logic
+  const totalPages = result
+    ? Math.ceil(result.top_anomalies.length / PAGE_SIZE)
+    : 0;
+
+  const paginatedData = result
+    ? result.top_anomalies.slice(
+        (currentPage - 1) * PAGE_SIZE,
+        currentPage * PAGE_SIZE
+      )
+    : [];
 
   return (
     <div className="min-h-screen bg-slate-100">
@@ -115,14 +154,36 @@ function App() {
             )}
           </div>
 
+          {/* Progress bar */}
           {loading && (
-            <p className="mt-4 text-blue-600">Running anomaly detection...</p>
+            <div className="mt-6">
+              <p className="text-blue-600 mb-2">
+                Running anomaly detection... {Math.floor(progress)}%
+              </p>
+              <div className="w-full bg-gray-200 rounded h-3 overflow-hidden">
+                <div
+                  className="bg-blue-600 h-3 transition-all duration-500"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
           )}
+          {/* {loading && (
+            <p className="mt-4 text-blue-600">Running anomaly detection...</p>
+          )} */}
 
           {error && <p className="mt-4 text-red-600">{error}</p>}
         </div>
 
-        {result && <Charts refresh={refreshCharts} />}
+        {result && (
+          <Charts
+            loading={loading}
+            refresh={refreshCharts}
+            progress={progress}
+            startFakeProgress={startFakeProgress}
+            stopFakeProgress={stopFakeProgress}
+          />
+        )}
 
         {/* Results */}
         {result && (
@@ -178,20 +239,19 @@ function App() {
                   </thead>
 
                   <tbody>
-                    {console.log(result)}
-                    {result.top_anomalies.map((item, index) => (
+                    {paginatedData.map((item, index) => (
                       <tr key={index} className="hover:bg-slate-50">
-                        <td className="p-3 border ">{index + 1}</td>
-                        <td className="p-3 border ">{item.ip}</td>
-
-                        {/* Raw anomaly score */}
-                        <td className="p-3 border  text-red-600">
-                          {item.anomaly_score?.toFixed(4)}
+                        <td className="p-3 border">
+                          {(currentPage - 1) * PAGE_SIZE + index + 1}
                         </td>
-                        <td className="p-3 border ">
-                          {item.anomaly_percentile?.toFixed(2)}%
+                        <td className="p-3 border">{item.ip}</td>
+                        <td className="p-3 border text-red-600">
+                          {item.anomaly_score.toFixed(4)}
                         </td>
-                        <td className="p-3 border  font-semibold">
+                        <td className="p-3 border">
+                          {item.anomaly_percentile.toFixed(2)}%
+                        </td>
+                        <td className="p-3 border font-semibold">
                           {item.severity}
                         </td>
                       </tr>
@@ -201,6 +261,29 @@ function App() {
               </div>
             </div>
           </>
+        )}
+        {result && (
+          <div className="flex justify-between items-center mt-4">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => p - 1)}
+              className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50 cursor-pointer"
+            >
+              Previous
+            </button>
+
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((p) => p + 1)}
+              className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50 cursor-pointer"
+            >
+              Next
+            </button>
+          </div>
         )}
       </main>
 

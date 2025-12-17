@@ -35,6 +35,33 @@ def load_predictions_safe():
 
     return df
 
+
+# def anomaly_score_distribution():
+#     df = load_predictions_safe()
+
+#     if df.empty or "anomaly_score" not in df.columns:
+#         return {"message": "No prediction data available"}
+
+#     normal = df[df["anomaly"] == "NORMAL"]["anomaly_score"]
+#     anomaly = df[df["anomaly"] == "ANOMALY"]["anomaly_score"]
+
+#     plt.figure(figsize=(8, 5))
+
+#     plt.hist(normal, bins=40, alpha=0.6, label="Normal")
+#     plt.hist(anomaly, bins=40, alpha=0.9, label="Anomalous")
+
+#     plt.title("Anomaly Score Distribution")
+#     plt.xlabel("Anomaly Score")
+#     plt.ylabel("Frequency")
+#     plt.legend()
+
+#     file_path = os.path.join(CHART_DIR, "anomaly_score_distribution.png")
+#     plt.tight_layout()         
+#     plt.savefig(file_path)   
+#     plt.close()              
+
+#     return {"chart": file_path}
+
 @router.get("/charts/anomaly-score-distribution")
 def anomaly_score_distribution():
     df = load_predictions_safe()

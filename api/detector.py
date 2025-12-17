@@ -5,7 +5,7 @@ import joblib
 
 MODEL_FILE = "models/isolation_forest.pkl"
 
-def run_detection(input_file: str = "data/processed/features.csv", top_n: int = 10):
+def run_detection(input_file: str = "data/processed/features.csv", top_n: int = 40):
     """
     Loads features from CSV, runs anomaly detection, returns summary + top anomalies.
     """
