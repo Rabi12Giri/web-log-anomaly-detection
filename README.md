@@ -134,10 +134,15 @@ root terminal -> web-log-anomaly-detection/
 
 Activate first in root terminal
 
---> venv\Scripts\Activate.ps1
+```bash
+venv\Scripts\Activate.ps1
+```
 
 Install Dependencies in root terminal
---> pip install -r requirements.txt
+
+```bash
+pip install -r requirements.txt
+```
 
 **Add Dataset**
 
@@ -174,10 +179,17 @@ Install Dependencies in root terminal
 
 - GET /charts/\*
 
-💻 **Running the Frontend (React)**
+💻 **Setting up and Running the Frontend (React)**
+
+```bash
+npm create vite@latest frontend
+```
+
+```bash
 cd frontend
 npm install
 npm run dev
+```
 
 Frontend runs at:
 
@@ -199,19 +211,17 @@ temp/charts/
 
 📸 Example Charts
 
-You can add screenshots like this:
-
-![Anomaly Score Distribution](images/anomaly_score_distribution.png)
-![Normal vs Anomalous Traffic](images/anomaly_count.png)
-![Top Anomalous IPs](images/top_anomalies.png)
+![Anomaly Score Distribution](charts/anomaly_score_distribution.png)
+![Normal vs Anomalous Traffic](charts/anomaly_count.png)
+![Top Anomalous IPs](charts/top_anomalies.png)
 
 📧 Email Alerts (Optional)
 
 Create a .env file:
 
-GMAIL_USER=yourgmail@gmail.com
-GMAIL_APP_PASSWORD=your_gmail_app_password
-ALERT_TO_EMAIL=receiver@gmail.com
+- GMAIL_USER=yourgmail@gmail.com
+- GMAIL_APP_PASSWORD=your_gmail_app_password
+- ALERT_TO_EMAIL=receiver@gmail.com
 
 Email alerts are triggered when anomalies are detected.
 
