@@ -61,7 +61,7 @@ def detect_from_uploaded_csv(file: UploadFile, top_n: int = 40):
     # Filter anomalies
     anomalies = df[df["anomaly"] == "ANOMALY"]
 
-    # 🔥 SUMMARY METRICS
+    # SUMMARY METRICS
     summary = {
         "total_rows": int(len(df)),
         "anomalies_detected": int(len(anomalies)),
@@ -75,9 +75,7 @@ def detect_from_uploaded_csv(file: UploadFile, top_n: int = 40):
 
     return {
         "uploaded_file": file.filename,
-
- 
-        "total_rows": int(len(df)),
+         "total_rows": int(len(df)),
         "anomalies_detected": int(len(anomalies)),
         "alert": bool(len(anomalies) > 0),
 

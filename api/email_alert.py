@@ -11,7 +11,6 @@ def send_gmail_alert(subject: str, body: str):
     """
     Sends an email via Gmail SMTP.
     GMAIL_USER, GMAIL_APP_PASSWORD, ALERT_TO_EMAIL
-    
     """
     gmail_user = os.getenv("GMAIL_USER")
     gmail_pass = os.getenv("GMAIL_APP_PASSWORD")

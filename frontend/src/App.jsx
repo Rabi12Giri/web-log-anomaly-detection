@@ -109,6 +109,7 @@ function App() {
           <button
             onClick={() => {
               localStorage.removeItem("isAuthenticated");
+              localStorage.removeItem("anomalyResult");
               window.location.href = "/login";
             }}
             className="text-sm bg-red-500 hover:bg-red-600 px-4 py-2 rounded cursor-pointer"
@@ -267,7 +268,7 @@ function App() {
             <button
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => p - 1)}
-              className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50 cursor-pointer"
+              className="px-4 py-2 bg-indigo-500 text-white rounded disabled:opacity-50 cursor-pointer"
             >
               Previous
             </button>
@@ -279,7 +280,7 @@ function App() {
             <button
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage((p) => p + 1)}
-              className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50 cursor-pointer"
+              className="px-4 py-2 bg-indigo-500 text-white rounded disabled:opacity-50 cursor-pointer"
             >
               Next
             </button>
@@ -289,7 +290,7 @@ function App() {
 
       {/* Footer */}
       <footer className="text-center text-sm text-gray-500 py-6">
-        MSc Cyber Security & AI • Unsupervised Anomaly Detection • Rabi Giri -
+        MSc Cyber Security & AI • Unsupervised Anomaly Detection • Rabi Giri •
         21049563
       </footer>
     </div>
