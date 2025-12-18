@@ -1,10 +1,10 @@
 import pandas as pd
 
 df = pd.read_csv(
-    "data/processed/features.csv",
+    "data/raw/test_web_logs.csv",
     nrows=5
 )
 
-print(df)
+print(df.columns.tolist())
 
 
