@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import Charts from "./components/Charts";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import SummaryCards from "./components/SummaryCards";
+import Header from "./components/Header";
 
 const PAGE_SIZE = 10;
 
@@ -96,28 +97,7 @@ function App() {
   return (
     <div className="min-h-screen bg-slate-100">
       {/* Header */}
-      <header className="bg-slate-900 text-white py-6 shadow">
-        <div className=" w-[80%] m-auto flex items-center justify-between">
-          <div className="">
-            <h1 className="text-3xl font-bold">
-              AI-Based Web Log Anomaly Detection
-            </h1>
-            <p className="text-slate-300 mt-1">
-              Unsupervised Intrusion Detection System
-            </p>
-          </div>
-          <button
-            onClick={() => {
-              localStorage.removeItem("isAuthenticated");
-              localStorage.removeItem("anomalyResult");
-              window.location.href = "/login";
-            }}
-            className="text-sm bg-red-500 hover:bg-red-600 px-4 py-2 rounded cursor-pointer"
-          >
-            Logout
-          </button>
-        </div>
-      </header>
+      <Header />
 
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Upload Card */}

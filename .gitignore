@@ -44,3 +44,7 @@ data/processed/
 
 # (REMOVE this line if present)
 *.log
+
+data/raw/chunks/
+
+project-info.txt

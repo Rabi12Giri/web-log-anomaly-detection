@@ -120,3 +120,63 @@ The system follows a clear pipeline from raw web server logs to
 unsupervised anomaly detection, visualisation, and alerting.
 Each stage produces structured outputs that are reused by
 subsequent components.
+
+Automation & Live Log Simulation 
+
+split_logs.py
+
+-> reads original Apache access log dataset
+-> splits log file into small fixed-size chunks
+-> stores chunks in a separate directory
+-> prepares data for simulated live log ingestion
+-> executed once before starting automated monitoring
+
+
+live_monitor.py
+
+-> simulates real-time log generation by appending log chunks
+-> maintains a live access log file that grows over time
+-> periodically parses newly appended logs
+-> triggers feature engineering automatically
+-> runs anomaly detection on updated features
+-> compares anomaly fingerprints to detect new threats
+-> sends email alerts only for newly detected anomalies
+-> maintains processing state to prevent duplicate alerts
+
+🔹 Backend Application Entry Point
+
+main.py
+-> initializes FastAPI application
+-> enables CORS for frontend integration
+-> registers API routes for detection and visualization
+-> serves static chart files
+-> starts automated live log monitor on application startup
+-> runs automation in a background thread without blocking APIs
+-> allows manual detection endpoints to operate independently
+
+✅ Correct explanation (THIS is what you should say)
+
+“The system simulates real-time web traffic by appending log batches to a live access 
+log every 120 seconds, re-processing the accumulated logs, and automatically sending 
+email alerts only when newly anomalous behavior is detected.”
+
+Step-by-step (accurate & simple)
+
+1. Log preparation (one-time step)
+The original Apache access.log file is split into smaller log chunks to simulate how logs arrive gradually in real systems.
+
+2. Live log simulation
+Every 120 seconds, the backend automatically appends the next log chunk into a single growing file called live_access.log.
+
+3. Automated processing
+After new logs are appended, the system re-parses the entire live log file using a regular expression to extract structured fields such as IP address, URL, and status code.
+
+4. Feature engineering & anomaly detection
+Features are recomputed from the updated log data and passed to an Isolation Forest model to detect anomalous behavior.
+
+5. Alerting logic
+If new anomalies are detected that were not seen in previous cycles, an email alert is sent.
+If anomalies are unchanged or no anomalies are detected, the system ignores the cycle.
+
+6. Continuous operation
+This automated process repeats every 120 seconds, simulating near real-time monitoring.

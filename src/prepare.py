@@ -6,12 +6,11 @@ import re
 import csv
 from tqdm import tqdm
 from datetime import datetime
+from pathlib import Path
 
-# Path to raw log file
-LOG_FILE = "data/raw/access.log"
-
-# Output CSV file
-OUTPUT_FILE = "data/processed/parsed_logs.csv"
+# Default paths (USED BY MANUAL MODE)
+DEFAULT_LOG_FILE = "data/raw/access.log"
+DEFAULT_OUTPUT_FILE = "data/processed/parsed_logs.csv"
 
 # Apache combined log format regex
 LOG_PATTERN = re.compile(
@@ -33,7 +32,7 @@ def parse_log_line(line):
 
     data = match.groupdict()
 
-    # Convert timestamp to readable format
+    # Convert timestamp to datetime
     data["time"] = datetime.strptime(
         data["time"].split()[0],
         "%d/%b/%Y:%H:%M:%S"
@@ -42,21 +41,50 @@ def parse_log_line(line):
     return data
 
 
-def main():
-    print("Starting log parsing...")
+def parse_logs(
+    log_file: str = DEFAULT_LOG_FILE,
+    output_file: str = DEFAULT_OUTPUT_FILE,
+    show_progress: bool = True
+):
+    """
+    Parses an Apache log file and writes parsed rows to CSV.
 
-    with open(LOG_FILE, "r", encoding="utf-8", errors="ignore") as infile, \
-         open(OUTPUT_FILE, "w", newline="", encoding="utf-8") as outfile:
+    This function is SAFE for:
+    - manual execution
+    - automated background jobs
+    - live log files (append-based)
+
+    Parameters:
+    - log_file: path to raw .log file
+    - output_file: path to output CSV
+    - show_progress: disable tqdm in automation
+    """
+
+    log_path = Path(log_file)
+    if not log_path.exists():
+        print(f"[prepare] Log file not found: {log_file}")
+        return
+
+    with open(log_path, "r", encoding="utf-8", errors="ignore") as infile, \
+         open(output_file, "w", newline="", encoding="utf-8") as outfile:
 
         fieldnames = ["ip", "time", "method", "url", "status", "agent"]
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
         writer.writeheader()
 
-        for line in tqdm(infile, desc="Processing log lines"):
+        iterator = infile
+        if show_progress:
+            iterator = tqdm(infile, desc="Processing log lines")
+
+        for line in iterator:
             parsed = parse_log_line(line)
             if parsed:
                 writer.writerow(parsed)
 
+
+def main():
+    print("Starting log parsing (manual mode)...")
+    parse_logs()
     print("Parsing completed. Output saved to parsed_logs.csv")
 
 

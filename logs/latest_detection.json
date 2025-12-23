@@ -1,0 +1,80 @@
+{
+  "total_ips": 269,
+  "anomalies_detected": 9,
+  "alert": true,
+  "fingerprint": "9bf4163df1f40bc23d25f36fc614c153cfd20c7ceb95d11b8a2d0a4eb21bf658",
+  "top_anomalies": [
+    {
+      "ip": "195.181.168.164",
+      "anomaly_score": -0.09769739939830879,
+      "severity": "LOW",
+      "mitigation": [
+        "Inspect for automated crawling or brute-force behavior"
+      ]
+    },
+    {
+      "ip": "5.117.116.238",
+      "anomaly_score": -0.07516381245551396,
+      "severity": "LOW",
+      "mitigation": [
+        "Monitor activity \u2013 no immediate mitigation required"
+      ]
+    },
+    {
+      "ip": "31.2.233.112",
+      "anomaly_score": -0.05886380640329281,
+      "severity": "HIGH",
+      "mitigation": [
+        "Investigate HTTP errors \u2013 possible probing or exploit attempts"
+      ]
+    },
+    {
+      "ip": "5.78.190.233",
+      "anomaly_score": -0.03779350794508318,
+      "severity": "LOW",
+      "mitigation": [
+        "Monitor activity \u2013 no immediate mitigation required"
+      ]
+    },
+    {
+      "ip": "66.249.66.194",
+      "anomaly_score": -0.027508782185952096,
+      "severity": "LOW",
+      "mitigation": [
+        "Monitor activity \u2013 no immediate mitigation required"
+      ]
+    },
+    {
+      "ip": "109.230.66.5",
+      "anomaly_score": -0.026086525914653436,
+      "severity": "LOW",
+      "mitigation": [
+        "Inspect for automated crawling or brute-force behavior"
+      ]
+    },
+    {
+      "ip": "5.211.97.39",
+      "anomaly_score": -0.024291466321834543,
+      "severity": "HIGH",
+      "mitigation": [
+        "Investigate HTTP errors \u2013 possible probing or exploit attempts"
+      ]
+    },
+    {
+      "ip": "151.239.241.163",
+      "anomaly_score": -0.005213414698302943,
+      "severity": "LOW",
+      "mitigation": [
+        "Monitor activity \u2013 no immediate mitigation required"
+      ]
+    },
+    {
+      "ip": "5.117.180.36",
+      "anomaly_score": -0.004485153341886816,
+      "severity": "LOW",
+      "mitigation": [
+        "Monitor activity \u2013 no immediate mitigation required"
+      ]
+    }
+  ]
+}
