@@ -270,8 +270,8 @@ function App() {
 
       {/* Footer */}
       <footer className="text-center text-sm text-gray-500 py-6">
-        MSc Cyber Security & AI • Unsupervised Anomaly Detection • Rabi Giri •
-        21049563
+        MSc Cyber Security & AI • AI-Based Web Log Anomaly Detection • Rabi Giri
+        • 21049563
       </footer>
     </div>
   );

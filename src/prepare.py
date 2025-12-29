@@ -8,7 +8,7 @@ from tqdm import tqdm
 from datetime import datetime
 from pathlib import Path
 
-# Default paths (USED BY MANUAL MODE)
+# Default paths
 DEFAULT_LOG_FILE = "data/raw/access.log"
 DEFAULT_OUTPUT_FILE = "data/processed/parsed_logs.csv"
 

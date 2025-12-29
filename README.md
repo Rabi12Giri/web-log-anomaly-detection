@@ -54,14 +54,14 @@ This project uses **Isolation Forest**, an unsupervised algorithm that:
 
 web-log-anomaly-detection/
 │
-├── api/
+├── api/ # FastAPI backend services
 │ ├── main.py
 │ ├── detector.py
 │ ├── upload_detect.py
 │ ├── charts.py
 │ └── email_alert.py
 │
-├── src/
+├── src/ # Data processing & ML scripts
 │ ├── prepare.py
 │ ├── feature_engineering.py
 │ ├── train.py
@@ -70,24 +70,17 @@ web-log-anomaly-detection/
 │ └── simulate_attack.py
 │
 ├── data/
-│ ├── raw/
-│ │ └── access.log
-│ └── processed/
-│ ├── parsed_logs.csv
-│ ├── features.csv
-│ └── features_with_attack.csv
+│ ├── raw/ # Raw log files
+│ └── processed/ # Parsed & feature CSV files
 │
-├── models/
+├── models/ # Trained ML models
 │ └── isolation_forest.pkl
 │
-├── logs/
-│ └── predictions.json
+├── logs/ # Detection outputs & state files
 │
-├── temp/
-│ └── charts/
+├── charts/ # Generated chart images
 │
-├── frontend/
-│ └── (React + Tailwind app)
+├── frontend/ # React + Tailwind application
 │
 ├── .env
 ├── requirements.txt
@@ -181,7 +174,7 @@ pip install -r requirements.txt
 
 💻 **Setting up and Running the Frontend (React)**
 
-```bash
+````bash
 npm create vite@latest frontend
 ```w
 
@@ -189,7 +182,7 @@ npm create vite@latest frontend
 cd frontend
 npm install
 npm run dev
-```
+````
 
 Frontend runs at:
 

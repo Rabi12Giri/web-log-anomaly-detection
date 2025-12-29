@@ -18,9 +18,6 @@ def send_gmail_alert(subject: str, body: str):
     - GMAIL_APP_PASSWORD
     - ALERT_TO_EMAIL
 
-    This function is SAFE for background automation:
-    - Never crashes the app
-    - Returns structured status
     """
 
     gmail_user = os.getenv("GMAIL_USER")

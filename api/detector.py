@@ -35,7 +35,7 @@ def run_detection(
     returns summary + top anomalies with mitigation guidance.
     """
 
-    # 1️⃣ Load features
+    # Load features
     df = pd.read_csv(input_file)
 
     if "ip" not in df.columns:
@@ -43,29 +43,29 @@ def run_detection(
 
     X = df.drop(columns=["ip"])
 
-    # 2️⃣ Load model + scaler
+    # Load model + scaler
     model, scaler = joblib.load(MODEL_FILE)
 
-    # 3️⃣ Scale features
+    # Scale features
     X_scaled = scaler.transform(X)
 
-    # 4️⃣ Predict anomalies
+    # Predict anomalies
     df["anomaly_score"] = model.decision_function(X_scaled)
     df["anomaly_raw"] = model.predict(X_scaled)  # -1 anomaly, 1 normal
     df["anomaly"] = df["anomaly_raw"].apply(
         lambda x: "ANOMALY" if x == -1 else "NORMAL"
     )
 
-    # 5️⃣ Extract & sort anomalies
+    # Extract & sort anomalies
     anomalies = df[df["anomaly"] == "ANOMALY"].copy()
     anomalies_sorted = anomalies.sort_values(
         "anomaly_score"
     ).head(top_n)
 
-    # 6️⃣ Fingerprint anomalies (for automation)
+    # Fingerprint anomalies (for automation)
     fingerprint = _fingerprint_anomalies(anomalies_sorted)
 
-    # 7️⃣ Build mitigation-aware response
+    # Build mitigation-aware response
     top_anomalies = []
 
     for _, row in anomalies_sorted.iterrows():
@@ -95,5 +95,7 @@ def run_detection(
         "fingerprint": fingerprint,
         "top_anomalies": top_anomalies,
     }
+
+    print ("result is, ", result)
 
     return result

@@ -180,3 +180,4 @@ If anomalies are unchanged or no anomalies are detected, the system ignores the 
 
 6. Continuous operation
 This automated process repeats every 120 seconds, simulating near real-time monitoring.
+

@@ -1,20 +1,52 @@
 {
-  "total_ips": 269,
-  "anomalies_detected": 9,
+  "total_ips": 409,
+  "anomalies_detected": 10,
   "alert": true,
-  "fingerprint": "9bf4163df1f40bc23d25f36fc614c153cfd20c7ceb95d11b8a2d0a4eb21bf658",
+  "fingerprint": "cc6c7236d44a2933218e0c2bf9eb600b3c8c808826b2b1e50e3752ac0be34a33",
   "top_anomalies": [
     {
       "ip": "195.181.168.164",
-      "anomaly_score": -0.09769739939830879,
+      "anomaly_score": -0.1595809617513091,
       "severity": "LOW",
       "mitigation": [
         "Inspect for automated crawling or brute-force behavior"
       ]
     },
     {
-      "ip": "5.117.116.238",
-      "anomaly_score": -0.07516381245551396,
+      "ip": "66.249.66.194",
+      "anomaly_score": -0.08064891826413112,
+      "severity": "LOW",
+      "mitigation": [
+        "Inspect for automated crawling or brute-force behavior"
+      ]
+    },
+    {
+      "ip": "109.230.66.5",
+      "anomaly_score": -0.04554393756894326,
+      "severity": "LOW",
+      "mitigation": [
+        "Inspect for automated crawling or brute-force behavior"
+      ]
+    },
+    {
+      "ip": "162.223.91.56",
+      "anomaly_score": -0.029463652846641097,
+      "severity": "LOW",
+      "mitigation": [
+        "Monitor activity \u2013 no immediate mitigation required"
+      ]
+    },
+    {
+      "ip": "195.181.169.141",
+      "anomaly_score": -0.028712333628827857,
+      "severity": "LOW",
+      "mitigation": [
+        "Monitor activity \u2013 no immediate mitigation required"
+      ]
+    },
+    {
+      "ip": "151.239.241.163",
+      "anomaly_score": -0.024804748554935974,
       "severity": "LOW",
       "mitigation": [
         "Monitor activity \u2013 no immediate mitigation required"
@@ -22,55 +54,31 @@
     },
     {
       "ip": "31.2.233.112",
-      "anomaly_score": -0.05886380640329281,
+      "anomaly_score": -0.02335900827409898,
       "severity": "HIGH",
       "mitigation": [
         "Investigate HTTP errors \u2013 possible probing or exploit attempts"
+      ]
+    },
+    {
+      "ip": "104.222.32.94",
+      "anomaly_score": -0.01978978606805626,
+      "severity": "LOW",
+      "mitigation": [
+        "Monitor activity \u2013 no immediate mitigation required"
       ]
     },
     {
       "ip": "5.78.190.233",
-      "anomaly_score": -0.03779350794508318,
+      "anomaly_score": -0.01764717228461854,
       "severity": "LOW",
       "mitigation": [
         "Monitor activity \u2013 no immediate mitigation required"
       ]
     },
     {
-      "ip": "66.249.66.194",
-      "anomaly_score": -0.027508782185952096,
-      "severity": "LOW",
-      "mitigation": [
-        "Monitor activity \u2013 no immediate mitigation required"
-      ]
-    },
-    {
-      "ip": "109.230.66.5",
-      "anomaly_score": -0.026086525914653436,
-      "severity": "LOW",
-      "mitigation": [
-        "Inspect for automated crawling or brute-force behavior"
-      ]
-    },
-    {
-      "ip": "5.211.97.39",
-      "anomaly_score": -0.024291466321834543,
-      "severity": "HIGH",
-      "mitigation": [
-        "Investigate HTTP errors \u2013 possible probing or exploit attempts"
-      ]
-    },
-    {
-      "ip": "151.239.241.163",
-      "anomaly_score": -0.005213414698302943,
-      "severity": "LOW",
-      "mitigation": [
-        "Monitor activity \u2013 no immediate mitigation required"
-      ]
-    },
-    {
-      "ip": "5.117.180.36",
-      "anomaly_score": -0.004485153341886816,
+      "ip": "5.117.116.238",
+      "anomaly_score": -0.011648289250197008,
       "severity": "LOW",
       "mitigation": [
         "Monitor activity \u2013 no immediate mitigation required"

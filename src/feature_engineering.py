@@ -4,7 +4,7 @@
 import pandas as pd
 from pathlib import Path
 
-# Default paths (used by manual mode)
+# Default 
 DEFAULT_INPUT_FILE = "data/processed/parsed_logs.csv"
 DEFAULT_OUTPUT_FILE = "data/processed/features.csv"
 

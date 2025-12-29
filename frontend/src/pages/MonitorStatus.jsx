@@ -148,6 +148,11 @@ const MonitorStatus = () => {
         {/*  Mitigation Table (Human-in-the-loop) */}
         <MitigationTable anomalies={anomalies} />
       </div>
+      {/* Footer */}
+      <footer className="text-center text-sm text-gray-500 py-6">
+        MSc Cyber Security & AI • AI-Based Web Log Anomaly Detection • Rabi Giri
+        • 21049563
+      </footer>
     </>
   );
 };

@@ -18,11 +18,9 @@ function Charts({ refresh, progress, startFakeProgress, stopFakeProgress }) {
         setImagesLoaded(0);
 
         // Fetch ALL chart APIs in parallel
-        await Promise.all([
-          fetch(`${API_BASE}/charts/anomaly-score-distribution`),
-          fetch(`${API_BASE}/charts/anomaly-count`),
-          fetch(`${API_BASE}/charts/top-anomalies`),
-        ]);
+        await fetch(`${API_BASE}/charts/anomaly-score-distribution`);
+        await fetch(`${API_BASE}/charts/anomaly-count`);
+        await fetch(`${API_BASE}/charts/top-anomalies`);
 
         stopFakeProgress();
         // Update cache  AFTER charts are created
