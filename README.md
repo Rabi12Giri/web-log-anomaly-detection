@@ -54,14 +54,14 @@ This project uses **Isolation Forest**, an unsupervised algorithm that:
 
 web-log-anomaly-detection/
 │
-├── api/ # FastAPI backend services
+├── api/
 │ ├── main.py
 │ ├── detector.py
 │ ├── upload_detect.py
 │ ├── charts.py
 │ └── email_alert.py
 │
-├── src/ # Data processing & ML scripts
+├── src/
 │ ├── prepare.py
 │ ├── feature_engineering.py
 │ ├── train.py
@@ -70,17 +70,17 @@ web-log-anomaly-detection/
 │ └── simulate_attack.py
 │
 ├── data/
-│ ├── raw/ # Raw log files
+│ ├── raw/
 │ └── processed/ # Parsed & feature CSV files
 │
-├── models/ # Trained ML models
+├── models/
 │ └── isolation_forest.pkl
 │
-├── logs/ # Detection outputs & state files
+├── logs/
 │
-├── charts/ # Generated chart images
+├── charts/
 │
-├── frontend/ # React + Tailwind application
+├── frontend/
 │
 ├── .env
 ├── requirements.txt
