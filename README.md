@@ -71,16 +71,23 @@ web-log-anomaly-detection/
 │
 ├── data/
 │ ├── raw/
-│ └── processed/ # Parsed & feature CSV files
+│ │ └── access.log
+│ └── processed/
+│ ├── parsed_logs.csv
+│ ├── features.csv
+│ └── features_with_attack.csv
 │
 ├── models/
 │ └── isolation_forest.pkl
 │
 ├── logs/
+│ └── predictions.json
 │
-├── charts/
+├── temp/
+│ └── charts/
 │
 ├── frontend/
+│ └── (React + Tailwind app)
 │
 ├── .env
 ├── requirements.txt
