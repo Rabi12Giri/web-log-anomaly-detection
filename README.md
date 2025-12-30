@@ -35,7 +35,7 @@ After downloading:
 - Detect suspicious IP behaviour without labelled attack data
 - Visualise anomaly results using charts
 - Provide a simple web interface for CSV upload and analysis
-- Trigger email alerts when anomalies are detected (optional)
+- Trigger email alerts when anomalies are detected
 
 ---
 
@@ -52,42 +52,36 @@ This project uses **Isolation Forest**, an unsupervised algorithm that:
 
 ## 📂 Project Structure
 
+````text
 web-log-anomaly-detection/
 │
-├── api/
-│ ├── main.py
-│ ├── detector.py
-│ ├── upload_detect.py
-│ ├── charts.py
-│ └── email_alert.py
+├── api/                 # FastAPI backend services
+│   ├── main.py
+│   ├── detector.py
+│   ├── upload_detect.py
+│   ├── charts.py
+│   └── email_alert.py
 │
-├── src/
-│ ├── prepare.py
-│ ├── feature_engineering.py
-│ ├── train.py
-│ ├── predict.py
-│ ├── baseline_filter.py # optional
-│ └── simulate_attack.py
+├── src/                 # Data processing & ML scripts
+│   ├── prepare.py
+│   ├── feature_engineering.py
+│   ├── train.py
+│   ├── predict.py
+│   ├── baseline_filter.py   # optional
+│   └── simulate_attack.py
 │
 ├── data/
-│ ├── raw/
-│ │ └── access.log
-│ └── processed/
-│ ├── parsed_logs.csv
-│ ├── features.csv
-│ └── features_with_attack.csv
+│   ├── raw/             # Raw log files
+│   └── processed/       # Parsed & feature CSV files
 │
-├── models/
-│ └── isolation_forest.pkl
+├── models/              # Trained ML models
+│   └── isolation_forest.pkl
 │
-├── logs/
-│ └── predictions.json
+├── logs/                # Detection outputs & state files
 │
-├── temp/
-│ └── charts/
+├── charts/              # Generated chart images
 │
-├── frontend/
-│ └── (React + Tailwind app)
+├── frontend/            # React + Tailwind application
 │
 ├── .env
 ├── requirements.txt
@@ -128,7 +122,7 @@ web-log-anomaly-detection/
 
 ```bash
 python -m venv venv
-```
+````
 
 root terminal -> web-log-anomaly-detection/
 
@@ -150,6 +144,9 @@ pip install -r requirements.txt
   data/raw/access.log
 
 🚀 **Running the Pipeline**
+
+- Create new folder
+  data/processed
 
 - Step 1: Parse Logs
   python src/prepare.py
@@ -173,23 +170,19 @@ pip install -r requirements.txt
 
 **Available endpoints:**
 
-- POST /detect
-
-- POST /detect-upload
-
-- GET /charts/\*
+![Swagger UI Endpoints](temp/endpoints.png)
 
 💻 **Setting up and Running the Frontend (React)**
 
-````bash
+```bash
 npm create vite@latest frontend
-```w
+```
 
 ```bash
 cd frontend
 npm install
 npm run dev
-````
+```
 
 Frontend runs at:
 
@@ -207,7 +200,7 @@ The system generates:
 
 - Charts are saved in:
 
-temp/charts/
+charts/
 
 📸 Example Charts
 
@@ -254,6 +247,18 @@ Email alerts are triggered when anomalies are detected.
 - Scikit-learn (Isolation Forest)
 
 - FastAPI
+
+- tqdm
+
+- requests
+
+- joblib
+
+- python-dotenv
+
+- uvicorn
+
+- python-multipart
 
 - React.js
 

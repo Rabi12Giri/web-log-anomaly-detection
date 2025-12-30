@@ -20,7 +20,7 @@ X = df.drop(columns=["ip"])
 
 print("Scaling features...")
 
-# Scale features (important for ML)
+# Scale features
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 

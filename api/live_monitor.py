@@ -16,7 +16,7 @@ from api.email_alert import send_gmail_alert
 CHUNK_DIR = Path("data/raw/chunks")
 LIVE_LOG = Path("data/raw/live_access.log")
 STATE_FILE = Path("logs/monitor_state.json")
-CHECK_INTERVAL = 50000  # seconds
+CHECK_INTERVAL = 10120  # seconds
 LATEST_RESULT_FILE = Path("logs/latest_detection.json")
 
 # -------- STATUS (NEW) --------
@@ -114,9 +114,12 @@ def automated_monitor():
                 current_ips = {
                     a["ip"] for a in result.get("top_anomalies", [])
                 }
-                previous_ips = set(state.get("last_anomalous_ips", []))
 
-                new_ips = current_ips - previous_ips
+                # Load previously alerted IPs (persistent)
+                alerted_ips = set(state.get("alerted_ips", []))
+
+                # Detect genuinely NEW anomalous IPs
+                new_ips = current_ips - alerted_ips
 
                 if new_ips:
                     MONITOR_STATUS["last_anomaly_detected"] = True
@@ -127,17 +130,18 @@ def automated_monitor():
                             "New anomalous IP addresses detected.\n\n"
                             f"New IP count: {len(new_ips)}\n\n"
                             "New anomalous IPs:\n"
-                            + "\n".join(new_ips)
+                            + "\n".join(sorted(new_ips))
                         )
                     )
 
-                    # Update state
-                    state["last_anomalous_ips"] = list(current_ips)
-                    state["last_fingerprint"] = result.get("fingerprint")
+                    # Update persistent alerted IPs
+                    alerted_ips.update(new_ips)
+                    state["alerted_ips"] = list(alerted_ips)
                     save_state(state)
 
                 else:
                     MONITOR_STATUS["last_anomaly_detected"] = False
+
 
             time.sleep(CHECK_INTERVAL)
 
