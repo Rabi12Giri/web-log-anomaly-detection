@@ -16,7 +16,7 @@ from api.email_alert import send_gmail_alert
 CHUNK_DIR = Path("data/raw/chunks")
 LIVE_LOG = Path("data/raw/live_access.log")
 STATE_FILE = Path("logs/monitor_state.json")
-CHECK_INTERVAL = 10120  # seconds
+CHECK_INTERVAL = 120  # seconds
 LATEST_RESULT_FILE = Path("logs/latest_detection.json")
 
 # -------- STATUS (NEW) --------

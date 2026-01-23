@@ -122,7 +122,7 @@ web-log-anomaly-detection/
 
 ```bash
 python -m venv venv
-````
+```
 
 root terminal -> web-log-anomaly-detection/
 
@@ -187,6 +187,57 @@ npm run dev
 Frontend runs at:
 
 - http://localhost:5173
+
+🔍 How It Works
+📌 Step 1 — Log Ingestion
+
+Raw logs (e.g., web server access logs) are uploaded and parsed into structured fields like IP, URL, status code, timestamp, etc.
+
+🔌 Step 2 — Feature Engineering
+
+Convert log fields into numerical features suitable for ML (e.g., request frequency, byte count statistics, response code ratios).
+
+🧠 Step 3 — Train Isolation Forest
+
+Unsupervised model learns normal patterns from historic logs.
+
+🚨 Step 4 — Detect Anomalies
+
+Assign anomaly scores; higher scores indicate unusual behavior.
+
+📊 Step 5 — Visualization & Alerts
+
+Results returned via API and shown in charts/tables in the UI, including optionally sending alert emails.
+
+📈 Example API Usage
+
+🗂 Upload parsed data
+
+```bash
+POST /anomalies/upload
+```
+
+📊 Get anomaly results
+
+```bash
+GET /anomalies/results
+```
+
+🧠 Retrain model
+
+```bash
+POST /model/retrain
+```
+
+🛠 Advanced Usage
+🧪 Model Evaluation
+
+Use your own datasets by preprocessing logs and passing them through the isolation forest pipeline:
+```bash
+python src/predict.py --file path/to/log.csv
+```
+--
+
 
 📊 Visualisations
 
@@ -273,6 +324,7 @@ It provides a complete pipeline from raw logs to detection, visualisation, and a
 
 👤 Author
 
-**Rabi Giri**
+**Rabi Giri**`
 **MSc IT (Cyber Security & AI)**
 **London Metropolitan University • Islington College**
+````

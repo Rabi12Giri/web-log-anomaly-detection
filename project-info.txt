@@ -154,13 +154,11 @@ main.py
 -> runs automation in a background thread without blocking APIs
 -> allows manual detection endpoints to operate independently
 
-✅ Correct explanation (THIS is what you should say)
-
-“The system simulates real-time web traffic by appending log batches to a live access 
+The system simulates real-time web traffic by appending log batches to a live access 
 log every 120 seconds, re-processing the accumulated logs, and automatically sending 
-email alerts only when newly anomalous behavior is detected.”
+email alerts only when newly anomalous behavior is detected.
 
-Step-by-step (accurate & simple)
+Step-by-step explanation
 
 1. Log preparation (one-time step)
 The original Apache access.log file is split into smaller log chunks to simulate how logs arrive gradually in real systems.
