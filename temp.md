@@ -52,23 +52,6 @@ This project uses **Isolation Forest**, an unsupervised algorithm that:
 
 ## 📂 Project Structure
 
-The repository is divided into frontend (UI), backend (API), and model processing parts:
-
-🐍 Backend / API
-
-- FastAPI server (api/)
-  - Serves endpoints for:
-
-  - log upload
-
-  - anomaly detection
-
-  - charts visualization
-
-  - email alerts
-
-- Contains core logic that receives processed log features and returns detection results.
-
 ```text
 web-log-anomaly-detection/
 │
@@ -130,8 +113,6 @@ Results are returned via API, visualised in charts/tables, and optionally emaile
 
 ## ⚙️ Installation & Setup
 
-### root terminal -> web-log-anomaly-detection/
-
 ### 1️⃣ Create Virtual Environment
 
 ```
@@ -139,6 +120,8 @@ Results are returned via API, visualised in charts/tables, and optionally emaile
 ```bash
 python -m venv venv
 ```
+
+root terminal -> web-log-anomaly-detection/
 
 Activate first in root terminal
 
@@ -269,17 +252,29 @@ Email alerts are triggered when anomalies are detected.
 📌 Technologies Used
 
 - Python
+
 - Pandas, NumPy
+
 - Scikit-learn (Isolation Forest)
+
 - FastAPI
+
 - tqdm
+
 - requests
+
 - joblib
+
 - python-dotenv
+
 - uvicorn
+
 - python-multipart
+
 - React.js
+
 - Tailwind CSS
+
 - Matplotlib
 
 ✅ Conclusion
