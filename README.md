@@ -70,43 +70,71 @@ The repository is divided into frontend (UI), backend (API), and model processin
 - Contains core logic that receives processed log features and returns detection results.
 
 ```text
-web-log-anomaly-detection/
-│
-├── api/                 # FastAPI backend services
-│   ├── main.py
-│   ├── detector.py
-│   ├── upload_detect.py
-│   ├── charts.py
-│   └── email_alert.py
-│
-├── src/                 # Data processing & ML scripts
-│   ├── prepare.py
-│   ├── feature_engineering.py
-│   ├── train.py
-│   ├── predict.py
-│   ├── baseline_filter.py   # optional
-│   └── simulate_attack.py
-│
-├── data/
-│   ├── raw/             # Raw log files
-│   └── processed/       # Parsed & feature CSV files
-│
-├── models/              # Trained ML models
-│   └── isolation_forest.pkl
-│
-├── logs/                # Detection outputs & state files
-│
-├── charts/              # Generated chart images
-│
-├── frontend/            # React + Tailwind application
-│
-├── .env
-├── requirements.txt
-└── README.md
 
+├── 📁 api
+│   ├── 🐍 charts.py
+│   ├── 🐍 detector.py
+│   ├── 🐍 email_alert.py
+│   ├── 🐍 live_monitor.py
+│   ├── 🐍 main.py
+│   ├── 🐍 mitigation.py
+│   └── 🐍 upload_detect.py
+├── 📁 charts
+│   ├── 🖼️ anomaly_count.png
+│   ├── 🖼️ anomaly_score_distribution.png
+│   └── 🖼️ top_anomalies.png
+├── 📁 data
+│   └── 📁 raw
+├── 📁 frontend
+│   ├── 📁 public
+│   │   └── 🖼️ vite.svg
+│   ├── 📁 src
+│   │   ├── 📁 assets
+│   │   │   └── 🖼️ react.svg
+│   │   ├── 📁 components
+│   │   │   ├── 📄 Charts.jsx
+│   │   │   ├── 📄 Header.jsx
+│   │   │   ├── 📄 MitigationTable.jsx
+│   │   │   └── 📄 SummaryCards.jsx
+│   │   ├── 📁 pages
+│   │   │   ├── 📄 Login.jsx
+│   │   │   └── 📄 MonitorStatus.jsx
+│   │   ├── 🎨 App.css
+│   │   ├── 📄 App.jsx
+│   │   ├── 🎨 index.css
+│   │   └── 📄 main.jsx
+│   ├── ⚙️ .gitignore
+│   ├── 📝 README.md
+│   ├── 📄 eslint.config.js
+│   ├── 🌐 index.html
+│   ├── ⚙️ package-lock.json
+│   ├── ⚙️ package.json
+│   └── 📄 vite.config.js
+├── 📁 logs
+│   ├── ⚙️ latest_detection.json
+│   ├── ⚙️ monitor_state.json
+│   └── ⚙️ predictions.json
+├── 📁 models
+│   └── 📄 isolation_forest.pkl
+├── 📁 src
+│   ├── 🐍 baseline_filter.py
+│   ├── 🐍 feature_engineering.py
+│   ├── 🐍 plot_attack_comparison.py
+│   ├── 🐍 predict.py
+│   ├── 🐍 prepare.py
+│   ├── 🐍 simulate_attack.py
+│   ├── 🐍 split_logs.py
+│   └── 🐍 train.py
+├── 📁 uploads
+├── ⚙️ .gitignore
+├── 📝 README.md
+├── 📄 requirements.txt
+└── 📝 temp.md
 ---
+```
 
 ## 🔄 Project Workflow (High Level)
+
 🔍 How It Works
 📌 Step 1 — Log Ingestion
 
@@ -133,8 +161,6 @@ Results are returned via API, visualised in charts/tables, and optionally emaile
 ### root terminal -> web-log-anomaly-detection/
 
 ### 1️⃣ Create Virtual Environment
-
-```
 
 ```bash
 python -m venv venv
