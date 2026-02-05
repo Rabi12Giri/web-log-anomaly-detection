@@ -4,7 +4,7 @@ __pycache__/
 *.pyd
 *.pyo
 .Python
-env/
+.env
 venv/
 lib/
 lib64/
